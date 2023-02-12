@@ -1,0 +1,27 @@
+{
+  "type": "module",
+  "name": "comprobante-script-modifier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "renameFiles": "node local-run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ulysses-Alv/ScriptComprobantes.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ulysses-Alv/ScriptComprobantes/issues"
+  },
+  "homepage": "https://github.com/Ulysses-Alv/ScriptComprobantes#readme",
+
+  "dependencies": {
+    "pdfreader": "3.0.0"
+  }
+
+
+}
