@@ -1,33 +1,33 @@
 import { collectFilesNames } from './filesCollecting.js';
-import { parseFile } from './rename.js';
+import { parseFile } from './parseFile.js';
+import { buildSueldo } from './buildSueldo.js';
+import { buildVEP } from './buildVEP.js';
 
 const filesPath = "./filesToRename/";
+
+const numero = 1; //0 = VEP 1 = RECIBO
+
 export const handler = async()=> {
-  const filesName = collectFilesNames(filesPath);
-  console.log(filesName);
-  const fileToRename = await parseFile(filesPath, filesName[0]);
-  console.log(fileToRename);
-  //const newFileName = buildSueldoName(fileToRename, 1);
-  //console.log(newFileName);
+    const filesName = collectFilesNames(filesPath); //List of files names. List of Strings.
+    //console.log(filesName, " filesname");
+    
+    const fileToRename = await parseFile(filesPath, filesName[numero]); //A Parsed File. List of strings.
+    //console.log(fileToRename, " filesToRename");
+    
+    var newFileName; 
+    
+    if(vepChecker(fileToRename)) 
+		newFileName = buildVEP(fileToRename);  //The new name that the parsed file has to have. String.
+    
+	else 
+		newFileName = buildSueldo(fileToRename, 1); //The new name that the parsed file has to have. String.
+	
+	console.log(newFileName, " newFileName");
+	//console.log(vepChecker(fileToRename), "Booleano");
 }
 
-/*sueldo-MM-YYYY*/
-
-function buildSueldoName(file, lineWithNamePosition){
-  const partToFind = ":";
-  const line = file[lineWithNamePosition];
-  
-  return "sueldo-" + buildSueldoPeriod(line, partToFind) + ".pdf"; 
+function vepChecker(parsedFile){ //Check if the file given is a VEP or not. 
+	var isVEPFile = false;
+	if(parsedFile[0] == "VEP") isVEPFile = true;
+	return isVEPFile;
 }
-
-function buildSueldoPeriod(line, partToFind){
-  const initialIndexPeriod = line.lastIndexOf(partToFind) + 1;
-  const lastIndexPeriod = line.length;
-  const period = line.substring(initialIndexPeriod, lastIndexPeriod).trim();
-  const periodToArray = period.split(" ");
-  const periodWellFormed = periodToArray.join("-");
-  
-  return periodWellFormed;
-}
-
-/* 'LIQUIDACIÓN CORRESPONDIENTE AL PERÍODO: Septiembre 2022' */
