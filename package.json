@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "renameFiles": "node local-run.js"
+    "rename": "node local-run.js"
   },
   "repository": {
     "type": "git",
@@ -19,8 +19,7 @@
   "homepage": "https://github.com/Ulysses-Alv/ScriptComprobantes#readme",
 
   "dependencies": {
-    "pdfreader": "3.0.0"
+    "pdfreader": "3.0.0",
+    "dotenv": "^16.0.3"
   }
-
-
 }

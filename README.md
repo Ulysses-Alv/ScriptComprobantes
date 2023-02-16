@@ -39,6 +39,7 @@ promise
 ## Como usar el script
 
 Para usarlo es necesario tener el ambiente de node instalado.
+Agregar un archivo .env, con los valores correspondientes para que levante el ambiente.
 Los archivos VEP y recibos de sueldo deben estar dentro de una carpeta de nombre `filesToRename` dentro de la raíz del proyecto.
 En consola correr `npm run renameFiles`
 Este comando dejara todos los archivos correctamente nombrados en una carpeta de nombre `renamedFiles` en la raíz del proyecto.
