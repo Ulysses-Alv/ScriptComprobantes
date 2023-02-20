@@ -6,16 +6,15 @@ import {PdfReader} from "pdfreader";
  * y siga la ejecución
  * */
 export const parsePDFFile = async (path, name) => {
-    const file = {name, lines: []};
-    const filePath = path + name;
+    const file = {name, path, fullPath: path + name, lines: []};
     let line = 0;
     const isPDF = name.includes(".pdf");
     if (isPDF) {
         const parseFile = (resolve, reject) => {
-            new PdfReader().parseFileItems(filePath, parseLineHandler(reject, resolve, file, line));
+            new PdfReader().parseFileItems(file.fullPath, parseLineHandler(reject, resolve, file, line));
         };
         return new Promise(parseFile)
-    } else{
+    } else {
         file.type = "NOT PDF"
         return Promise.resolve(file)
     }

@@ -5,10 +5,8 @@ import {buildSueldo} from './buildSueldo.js';
 import {buildVEPName} from './buildVEP.js';
 import {moveAndRenameFile} from './renameFile.js';
 
-const filesPath = process.env.SOURCE_PATH;
-const renamedFilesPath = process.env.DESTINATION;
-
 export const handler = async () => {
+    const filesPath = process.env.SOURCE_PATH;
     const filesName = collectFilesNames(filesPath);
     const parsedFiles = await Promise.all(filesName.map(async function (fileName) {
         return await parsePDFFile(filesPath, fileName).catch(invalidFile => invalidFile);
@@ -19,18 +17,18 @@ export const handler = async () => {
 function renameDependsOnType(fileToRename) {
     if (isVep(fileToRename)) {
         const newFileName = buildVEPName(fileToRename);
-        renameFileName(fileToRename.name, newFileName);
+        renameFileName(fileToRename, newFileName);
     } else if (isSueldo(fileToRename)) {
         const newFileName = buildSueldo(fileToRename, 1);
-        renameFileName(fileToRename.name, newFileName);
+        renameFileName(fileToRename, newFileName);
     } else {
         console.log(`El archivo [${fileToRename.name}] no es procesable.`)
     }
 }
 
-function renameFileName(oldName, newName) {
-    const oldPath = filesPath + oldName;
-    const newPath = renamedFilesPath + newName;
+function renameFileName(file, newName) {
+    const oldPath = file.fullPath;
+    const newPath = process.env.DESTINATION + newName;
     console.log(`Mueve archivo desde [${oldPath}] hacia [${newPath}].`)
     moveAndRenameFile(oldPath, newPath);
 }
