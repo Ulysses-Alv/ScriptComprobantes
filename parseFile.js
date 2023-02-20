@@ -1,24 +1,38 @@
-import { PdfReader } from "pdfreader";
+import {PdfReader} from "pdfreader";
 
-export const parsePDFFile = async (path, name) => { //Parse the pdf given with the path and name of it
-  const file = {name};
-  var line = 0;
-  return new Promise(function (resolve, reject) {
-    new PdfReader().parseFileItems(path + name, function (err, pdf) {
-      if (err) reject(err);
-      else if (!pdf) {
-        resolve(file); //return file.
-      }
+/**
+ * Parsea el archivo PDF a un objeto nuestro, que tiene el tipo ya que le corresponde.
+ * En caso de error, no explota y solo retorna un archivo con tipo ERROR, para que no sea procesable
+ * y siga la ejecución
+ * */
+export const parsePDFFile = async (path, name) => {
+    const file = {name, lines: []};
+    const filePath = path + name;
+    let line = 0;
+    const parseFile = (resolve, reject) => {
+        new PdfReader().parseFileItems(filePath, parseLineHandler(reject, resolve, file, line));
+    };
+    return new Promise(parseFile)
+}
 
-      else if (pdf.text) {
-        file.lines[line] = pdf.text;
-        line++;
-      }
-    });
-  })
-}  
-/* 
-{
-  //name: "asdasd",
-  lines: []
-} */
+function parseLineHandler(reject, resolve, file, line) {
+    return function (error, pdf) {
+        if (error) {
+            console.log(`Error al parsear la linea [${line}] del archivo [${file.name}].`, error)
+            file.type = "ERROR"
+            reject(file);
+        } else if (!pdf) {
+            resolve(file);
+        } else if (pdf.text) {
+            setTypeForFromFirstLine(file, line, pdf.text);
+            file.lines[line] = pdf.text;
+            line++;
+        }
+    };
+}
+
+function setTypeForFromFirstLine(file, position, text) {
+    if (position === 0) {
+        file.type = text;
+    }
+}
