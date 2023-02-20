@@ -1,10 +1,10 @@
-export const buildVEP = (file)=> {
+export const buildVEPName = (file)=> {
     const line = file[dateFinder(file)];
 
     return "ComprobanteVEP-" + buildVEPPeriod(line) + ".pdf"; 
 }
 
-function buildVEPPeriod(line){ "202202"
+function buildVEPPeriod(line){ 
     const dateMonth = line.slice(4, 6);
     const dateYear = line.slice(0, 4);
     const periodWellFormed = dateMonth + "-" + dateYear;

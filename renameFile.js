@@ -1,5 +1,5 @@
 import * as fs from 'fs';
 
-export const renameFile = (oldName, newName) => {
-    fs.renameSync(oldName, newName);
+export const moveAndRenameFile = (oldPath, newPath) => {
+    fs.renameSync(oldPath, newPath);
 }

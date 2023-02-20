@@ -1,46 +1,64 @@
 import 'dotenv/config';
 import { collectFilesNames } from './filesCollecting.js';
-import { parseFile } from './parseFile.js';
+import { parsePDFFile } from './parseFile.js';
 import { buildSueldo } from './buildSueldo.js';
-import { buildVEP } from './buildVEP.js';
-import { renameFile } from './renameFile.js';
-import * as fs from 'fs';
-
+import { buildVEPName } from './buildVEP.js';
+import { moveAndRenameFile } from './renameFile.js';
 
 const filesPath = process.env.SOURCE_PATH;
 const renamedFilesPath = process.env.DESTINATION;
-const canContinue = true;
 
-export const handler = async()=> {    
-	var filesName = collectFilesNames(filesPath);
-	for (let i = 0; i <= filesName.length && canContinue; i++) {
-		//console.log(filesName, " filesname");
-	const fileToRename = await parseFile(filesPath, filesName[0]); //A Parsed File. List of strings.
-	//console.log(fileToRename, " filesToRename");
-	
-	var newFileName; 
-	
-	if(vepChecker(fileToRename)) 
-		newFileName = buildVEP(fileToRename);
-	else 
-		newFileName = buildSueldo(fileToRename, 1);
-	
-	renameFile(filesPath+filesName[0], renamedFilesPath+newFileName); //The new name that the parsed file has to have. String.
-	console.log(newFileName, " newFileName");
-	//console.log(vepChecker(fileToRename), "Booleano"); 
-	
-	filesName = collectFilesNames(filesPath);
-	  }
+export const handler = async () => {
+	const filesName = collectFilesNames(filesPath);
+	filesName.forEach(processFileBy)
 }
-function anErrorHasOcurred(item){
-	if(filesName[item].search = ".pdf" == -1 && filesName.length == 0) {
-		console.log("Formato de archivo no valido. Introduzca un PDF.")
-		canContinue = false;	
+
+async function processFileBy(fileName) {
+	const isPDF = fileName.includes(".pdf");
+	if (isPDF) {
+		const fileToRename = await parsePDFFile(filesPath, fileName)
+			.catch(er => {
+				console.log(er)
+				const invalidFile = ["error"]
+				return invalidFile
+			}); //A Parsed File. List of strings.
+		renameDependsOnType(fileToRename)
 	}
-	else if (filesName[0].search = ".pdf" == -1 && filesName.length > 0){
+	else {
+		console.log(`El archivo [${fileName}] no tiene el formato de pdf valido`)
+	}
+}
+
+async function renameDependsOnType(fileToRename) {
+	let newFileName;
+	if (isVep(fileToRename)) {
+		newFileName = buildVEPName(fileToRename);
+		console.log("file", fileToRename);
+		renameFileName(fileToRename.name, newFileName);
+	} else if (isSueldo(fileToRename)) {
+		newFileName = buildSueldo(fileToRename, 1);
+		console.log("file", fileToRename);
+		renameFileName(fileToRename, newFileName);
+	} else {
+		console.log(`El archivo [${fileToRename}] no es procesable`)
+	}
+}
+function renameFileName(oldName, newName) {
+	const oldPath = filesPath + oldName;
+	const newPath = renamedFilesPath + newName;
+	moveAndRenameFile(oldPath, newPath);
+}
+
+function anErrorHasOcurred(item) {
+	if (filesName[item].search = ".pdf" == -1 && filesName.length == 0) {
+		console.log("Formato de archivo no valido. Introduzca un PDF.")
+		canContinue = false;
+	}
+	else if (filesName[0].search = ".pdf" == -1 && filesName.length > 0) {
 
 	}
 	return item;
 } //this is a bad idea... pero no se q hacer, ya tengo sueño
 
-function vepChecker(parsedFile){ return parsedFile[0] == "VEP"; }
+function isVep(parsedFile) { return parsedFile[0] == "VEP"; }
+function isSueldo(parsedFile) { return parsedFile[0] == "RECIBO DE SUELDO"; }
