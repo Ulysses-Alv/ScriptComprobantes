@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { collectFilesNames } from './filesCollecting.js';
 import { parseFile } from './parseFile.js';
 import { buildSueldo } from './buildSueldo.js';
@@ -6,8 +7,8 @@ import { renameFile } from './renameFile.js';
 import * as fs from 'fs';
 
 
-const filesPath = "./filesToRename/";
-const renamedFilesPath = "./renamedFiles/";
+const filesPath = process.env.SOURCE_PATH;
+const renamedFilesPath = process.env.DESTINATION;
 const canContinue = true;
 
 export const handler = async()=> {    
