@@ -1,6 +1,6 @@
 # Script de comprobantes
 
-## Requerimiento
+### Requerimiento
 
 Necesito un script que tome un archivo(luego vemos como hacerlo para más de uno) de alguna ubicación dada(o quizás con que tome la raíz cómo dónde está ubicado el archivo alcanza) y le haga un renombre al archivo, pero según algún valor que tenga adentro el propio archivo, para que sea automatizado.
 Este sistema sólo valdría por ahora para re nombrar los archivos que se bajan de afip de los pagos que hago de los aportes y el sueldo de mamá. Adjunto un zip con todos los archivos hasta ahora, recomiendo mirarlos para entenderlos y eliminar los duplicados porque seguro hay duplicados.
@@ -36,7 +36,7 @@ handle buffer bytes
 callback
 promise
 
-## Como usar el script
+### Como usar el script
 
 Para usarlo es necesario tener el ambiente de node instalado.
 Agregar un archivo .env, con los valores correspondientes para que levante el ambiente.
@@ -44,4 +44,53 @@ Los archivos VEP y recibos de sueldo deben estar dentro de una carpeta de nombre
 En consola correr `npm run renameFiles`
 Este comando dejara todos los archivos correctamente nombrados en una carpeta de nombre `renamedFiles` en la raíz del proyecto.
 
+### Segundo requerimiento
+
+Armar un consolidado a partir de todos los comprobantes.
+Este consolidado debe estar en un sólo archivo o varios, pero ordenados por periodo.
+Entonces un recibo de sueldo de febrero, tiene que estar relacionado en el mismo archivo con sus comrpbantes VEP y con el siguiente formato.
+
+Contribución se saca del VEP.
+Hay que buscar `Periodo:`
+Lo que sigue es una posible lista de la forma: `202205, 202204, 202203`, hay que pasar esto a una lista usando `","` como splitter.
+Luego hacer trim a cada valor de la lista. Y luego con el length de esta lista, sabes cuantos `'Aportes, Contrib. y ART (19)'` 
+hay que buscar para obtener el valor que va en contribucion.monto
+
+Retribución se saca del sueldo.
+
+Para armar esto, el periodo se saca del recibo de sueldo, de donde se sacaba el periodo antes
+y las constribuciones, que pueden ser una lista como la siguiente:
+
+`'Periodo:',
+'202205, 202204, 202203',
+'Aportes, Contrib. y ART (19)',
+'$834,30',
+'Interes (51)',
+'$17,78',
+'Aportes, Contrib. y ART (19)',
+'$765,39',
+'Interes (51)',
+'$45,09',
+'Aportes, Contrib. y ART (19)',
+'$727,46',
+'Interes (51)',
+'$69,29',
+`
+
+Entonces el periodo de mayo, es el primer 'Aportes, Contrib. y ART (19)', que aparece, y así siguiendo.
+
+Ejemplo:
+```json
+{
+  "periodo": "enero",
+  "contribucion": {
+    "Monto": "$123,24",
+    "Fecha de pago": "5/01/2023"
+  },
+  "retribucion": {
+    "Monto": "$30000,00",
+    "Fecha de pago": "5/01/2023"
+  }
+}
+```
 
