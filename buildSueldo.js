@@ -4,7 +4,7 @@ export const buildSueldo  = (file, lineWithNamePosition)=> {
 
 function buildSueldoName(file, lineWithNamePosition){
 	const partToFind = ":";
-	const line = file[lineWithNamePosition];
+	const line = file.lines[lineWithNamePosition];
 
 	return "ReciboDeSueldo-" + buildSueldoPeriod(line, partToFind) + ".pdf"; 
   }

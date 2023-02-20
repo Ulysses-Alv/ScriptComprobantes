@@ -1,5 +1,5 @@
 export const buildVEPName = (file)=> {
-    const line = file[dateFinder(file)];
+    const line = file.lines[dateFinder(file.lines)];
 
     return "ComprobanteVEP-" + buildVEPPeriod(line) + ".pdf"; 
 }
