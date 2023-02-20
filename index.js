@@ -10,22 +10,13 @@ const renamedFilesPath = process.env.DESTINATION;
 
 export const handler = async () => {
     const filesName = collectFilesNames(filesPath);
-    await filesName.forEach(processFileBy)
-}
-
-async function processFileBy(fileName) {
-    const isPDF = fileName.includes(".pdf");
-    if (isPDF) {
-        const fileToRename = await parsePDFFile(filesPath, fileName)
-            .catch(invalidFile => invalidFile);
-        renameDependsOnType(fileToRename);
-    } else {
-        console.log(`El archivo [${fileName}] no tiene el formato de pdf valido`)
-    }
+    const parsedFiles = await Promise.all(filesName.map(async function (fileName) {
+        return await parsePDFFile(filesPath, fileName).catch(invalidFile => invalidFile);
+    }));
+    parsedFiles.forEach(renameDependsOnType)
 }
 
 function renameDependsOnType(fileToRename) {
-    console.log(`archivo: ${JSON.stringify(fileToRename)}`)
     if (isVep(fileToRename)) {
         const newFileName = buildVEPName(fileToRename);
         renameFileName(fileToRename.name, newFileName);
@@ -45,6 +36,5 @@ function renameFileName(oldName, newName) {
 }
 
 const isVep = (file) => file.type === "VEP";
-
 
 const isSueldo = (file) => file.type === "RECIBO DE SUELDO";

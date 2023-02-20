@@ -9,10 +9,16 @@ export const parsePDFFile = async (path, name) => {
     const file = {name, lines: []};
     const filePath = path + name;
     let line = 0;
-    const parseFile = (resolve, reject) => {
-        new PdfReader().parseFileItems(filePath, parseLineHandler(reject, resolve, file, line));
-    };
-    return new Promise(parseFile)
+    const isPDF = name.includes(".pdf");
+    if (isPDF) {
+        const parseFile = (resolve, reject) => {
+            new PdfReader().parseFileItems(filePath, parseLineHandler(reject, resolve, file, line));
+        };
+        return new Promise(parseFile)
+    } else{
+        file.type = "NOT PDF"
+        return Promise.resolve(file)
+    }
 }
 
 function parseLineHandler(reject, resolve, file, line) {
