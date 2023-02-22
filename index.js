@@ -11,7 +11,29 @@ export const handler = async () => {
     const parsedFiles = await Promise.all(filesName.map(async function (fileName) {
         return await parsePDFFile(filesPath, fileName).catch(invalidFile => invalidFile);
     }));
-    parsedFiles.forEach(renameDependsOnType)
+    const consolidated = buildConsolidatedFile(parsedFiles);
+    // console.log(consolidated);
+    // parsedFiles.forEach(renameDependsOnType);
+}
+
+function buildConsolidatedFile(parsedFiles) {
+    let filledFiles = parsedFiles.map(fillProperties);
+    console.log(filledFiles);
+    return undefined;
+}
+
+function fillProperties(file) {
+    const isPeriod = (element) => element ==="Periodo:";
+
+    if (isVep(file)) {
+        let index = file.lines.findIndex(isPeriod);
+        let xx = file.lines[index + 1];
+        let splitted = xx.split(",")
+        console.log("splitted", splitted)
+        file.period = splitted
+        return file
+    }
+
 }
 
 function renameDependsOnType(fileToRename) {
