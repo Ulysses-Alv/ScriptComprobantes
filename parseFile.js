@@ -1,8 +1,8 @@
 import { PdfReader } from "pdfreader";
 
-export const parseFile = async(path, name)=>{ //Parse the pdf given with the path and name of it
-  var file = [];
-  var line = 0;
+export const parsePDFFile = async(path, name)=>{ //Parse the pdf given with the path and name of it
+  let file = [];
+  let line = 0;
 
   return new Promise(function(resolve, reject){
     new PdfReader().parseFileItems(path + name, function(err, pdf) {
