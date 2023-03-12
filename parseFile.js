@@ -16,6 +16,7 @@ export const parsePDFFile = async(path, name)=>{ //Parse the pdf given with the 
       else if (pdf.text) 
         {
           file[line] = pdf.text;
+          //console.log(line + ": "+ file[line] )
           line++;
         }
     });
