@@ -1,24 +1,23 @@
 import { PdfReader } from "pdfreader";
 
-export const parsePDFFile = async (path, name) => { //Parse the pdf given with the path and name of it
-  const file = {name};
-  var line = 0;
-  return new Promise(function (resolve, reject) {
-    new PdfReader().parseFileItems(path + name, function (err, pdf) {
-      if (err) reject(err);
-      else if (!pdf) {
-        resolve(file); //return file.
-      }
+export const parsePDFFile = async(path, name)=>{ //Parse the pdf given with the path and name of it
+  let file = [];
+  let line = 0;
 
-      else if (pdf.text) {
-        file.lines[line] = pdf.text;
-        line++;
-      }
+  return new Promise(function(resolve, reject){
+    new PdfReader().parseFileItems(path + name, function(err, pdf) {
+      if (err) reject(err);
+      else if (!pdf) 
+        {
+          //console.log("EOF");
+          resolve(file); //return file.
+        }
+
+      else if (pdf.text) 
+        {
+          file[line] = pdf.text;
+          line++;
+        }
     });
   })
 }  
-/* 
-{
-  //name: "asdasd",
-  lines: []
-} */
