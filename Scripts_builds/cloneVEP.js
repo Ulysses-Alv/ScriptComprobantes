@@ -1,5 +1,5 @@
 import * as  fs from "fs";
-import { filesPath, renamedFilesPath } from './index.js';
+import { filesPath, renamedFilesPath } from '../index.js';
 
 export const cloneVEP = (originalFileName, newFileName) => {
     const originalFullPath = filesPath + originalFileName
@@ -8,7 +8,7 @@ export const cloneVEP = (originalFileName, newFileName) => {
             console.error(err);
             return;
         }
-        console.log('File contents copied successfully!');
+        //console.log('File contents copied successfully!');
     });
 }
 
@@ -18,7 +18,7 @@ export const deleteOriginalFile = (pathToDelete) => {
             console.error(err);
             return;
         }
-        console.log('File deleted successfully');
+        //console.log('File deleted successfully');
     });
 } 
 

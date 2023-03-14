@@ -1,9 +1,12 @@
+import { getMonthName } from "../Scripts_checkAndFuctions/convertDates.js";
+import { lineFinder } from "../find_Scripts/lineFinder.js";
+
 export const buildVEPName = (file) => {
-    const line = file[dateFinder(file)];
+    const line = file[lineFinder(file, "Periodo:", 1)];
     if (line.length <= 6) {
         return "ComprobanteVEP-" + buildVEPPeriodSimple(line) + ".pdf";
     } else {
-        const listOfNames = buildVEPPeriodMultiple("202205, 202204, 202203")
+        const listOfNames = buildVEPPeriodMultiple(line)
         const listOfFinalNames = listOfNames.map(function (item) {
             return "ComprobanteVEP-" + item + ".pdf";
         })
@@ -31,18 +34,4 @@ function buildVEPPeriodMultiple(line) {
     return newFileName;
 }
 
-function dateFinder(file) {
-    var periodoPos = 0
-    while (file[periodoPos] != "Periodo:") { periodoPos++; }
-    periodoPos++;
-    return periodoPos;
-}
 
-function getMonthName(monthNumber) {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-
-    let month = date.toLocaleString('es-ES', { month: 'long' })
-    let month2 = month.charAt(0).toUpperCase() + month.slice(1)
-    return month2;
-}
