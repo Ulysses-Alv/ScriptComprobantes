@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path'
 
 export const collectFilesNames = (path)=> //Collects the names of the files on the path given.
 {
@@ -8,5 +9,5 @@ export const collectFilesNames = (path)=> //Collects the names of the files on t
       collectedFilesNames[position] = file;
       position++;
     });
-    return collectedFilesNames;
+    return collectedFilesNames.filter((file => path.extname(file) === '.pdf'));
 }
