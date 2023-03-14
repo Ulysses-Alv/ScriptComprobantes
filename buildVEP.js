@@ -1,3 +1,4 @@
+import { getMonthName } from "./convertDates.js";
 import { lineFinder } from "./lineFinder.js";
 
 export const buildVEPName = (file) => {
@@ -33,11 +34,4 @@ function buildVEPPeriodMultiple(line) {
     return newFileName;
 }
 
-function getMonthName(monthNumber) {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
 
-    let month = date.toLocaleString('es-ES', { month: 'long' })
-    let month2 = month.charAt(0).toUpperCase() + month.slice(1)
-    return month2;
-}

@@ -1,8 +1,8 @@
 import { findIndex } from "./findIndex.js";
-import { consolidadoPath, renamedFilesPath } from "./index.js";
+import { renamedFilesPath } from "./index.js";
 import { lineFinder } from "./lineFinder.js";
 import { parsePDFFile } from './parseFile.js';
-import { writeFileTxt } from "./writeFileTxt.js";
+import { objectsArrayOfPeriodos } from "./sortObjects.js";
 
 const consolidadoPrototype = {
     periodo: undefined, //"xxxxx",
@@ -11,14 +11,14 @@ const consolidadoPrototype = {
     montoSueldo: undefined, //"xx,xx",
     fechaDePagoSueldo: undefined //"xx/xx/xxxx"
 }
-export const parseFileAndWriteObject = async (filesArray, periodTime) => {
+export const parseFileAndAddToArray = async (filesArray, periodTime) => {
     const indexVEP = findIndex(filesArray, 'Comprobante');
     const indexSueldo = findIndex(filesArray, 'Recibo');
 
     const parsePDfVEP = indexVEP !== undefined ? await parsePDFFile(renamedFilesPath, filesArray[indexVEP]) : undefined;
     const parsePDfSueldo = indexSueldo !== undefined ? await parsePDFFile(renamedFilesPath, filesArray[indexSueldo]) : undefined;
 
-    let consolidadoPeriodo = Object.create(consolidadoPrototype);
+    let consolidadoPeriodo = Object.create(consolidadoPrototype); //The Object With All the items inside.
     
     const nameOfTxtFile = periodTime.slice(0, -4).replace("-", " ");
     consolidadoPeriodo.periodo = nameOfTxtFile;
@@ -35,10 +35,8 @@ export const parseFileAndWriteObject = async (filesArray, periodTime) => {
     const fechaPagoSueldo = parsePDfSueldo !== undefined ? parsePDfSueldo[lineFinder(parsePDfSueldo, "Detalle del Período", 2)].slice(7) : "Dato no encontrado. Falta Recibo de Sueldo de este periodo";
     consolidadoPeriodo.fechaDePagoSueldo = fechaPagoSueldo;
 
-    let text = "";
-    for (let prop in consolidadoPeriodo) {
-        text += prop + ": " + consolidadoPeriodo[prop] + ".\n";
-    }
+    objectsArrayOfPeriodos.push(consolidadoPeriodo)
+    //console.log(objectsArrayOfPeriodos)
+    //console.log(objectsArrayOfPeriodos.length)
     //console.log(parsePDfVEP)
-    writeFileTxt(consolidadoPath + consolidadoPeriodo.periodo + ".txt", text);
 }
