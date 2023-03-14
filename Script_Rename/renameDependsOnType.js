@@ -1,9 +1,8 @@
-import { buildSueldo } from './buildSueldo.js';
-import { buildVEPName } from './buildVEP.js';
-import { cloneVEP } from "./cloneVEP.js";
+import { buildSueldo } from '../Scripts_builds/buildSueldo.js';
+import { buildVEPName } from '../Scripts_builds/buildVEP.js';
+import { cloneVEP, deleteOriginalFile } from "../Scripts_builds/cloneVEP.js";
 import { moveAndRenameFile } from './renameFile.js';
-import { deleteOriginalFile } from './cloneVEP.js';
-import { filesPath } from './index.js';
+import { filesPath } from '../index.js';
 
 
 export async function renameDependsOnType(nameOfTheFileToRename, parsedFileToRename) {

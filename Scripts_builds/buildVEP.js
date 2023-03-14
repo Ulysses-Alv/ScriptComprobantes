@@ -1,5 +1,5 @@
-import { getMonthName } from "./convertDates.js";
-import { lineFinder } from "./lineFinder.js";
+import { getMonthName } from "../Scripts_checkAndFuctions/convertDates.js";
+import { lineFinder } from "../find_Scripts/lineFinder.js";
 
 export const buildVEPName = (file) => {
     const line = file[lineFinder(file, "Periodo:", 1)];

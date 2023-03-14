@@ -1,5 +1,5 @@
 import * as  fs from "fs";
-import { filesPath, renamedFilesPath } from './index.js';
+import { filesPath, renamedFilesPath } from '../index.js';
 
 export const cloneVEP = (originalFileName, newFileName) => {
     const originalFullPath = filesPath + originalFileName

@@ -1,6 +1,6 @@
-import { parsePDFFile } from './parseFile.js';
-import { filesPath } from './index.js';
-import { renameDependsOnType } from "./renameDependsOnType.js";
+import { parsePDFFile } from '../Script_Parse/parseFile.js';
+import { filesPath } from '../index.js';
+import { renameDependsOnType } from "../Script_Rename/renameDependsOnType.js";
 
 export async function processFileBy(fileName) {
 	const isPDF = fileName.includes(".pdf");

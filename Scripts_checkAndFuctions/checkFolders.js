@@ -1,4 +1,4 @@
-import { filesPath, renamedFilesPath, consolidadoPath} from './index.js';
+import { filesPath, renamedFilesPath, consolidadoPath} from '../index.js';
 import * as fs from 'fs'
 
 export function checkFolders() {

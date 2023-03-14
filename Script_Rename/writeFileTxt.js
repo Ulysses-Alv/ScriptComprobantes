@@ -1,5 +1,5 @@
 import * as fs from "fs";
-import { consolidadoPath } from "./index.js";
+import { consolidadoPath } from "../index.js";
 
 let text = "";
 

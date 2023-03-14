@@ -1,8 +1,8 @@
 import 'dotenv/config';
-import { collectFilesNames } from './filesCollecting.js';
+import { collectFilesNames } from './Scripts_checkAndFuctions/filesCollecting.js';
 import { consolidado } from './consolidado.js';
-import { checkFolders } from './checkFolders.js';
-import { processFileBy } from './processFileBy.js';
+import { checkFolders } from './Scripts_checkAndFuctions/checkFolders.js';
+import { processFileBy } from './Scripts_checkAndFuctions/processFileBy.js';
 
 export const filesPath = process.env.SOURCE_PATH;
 export const renamedFilesPath = process.env.DESTINATION;

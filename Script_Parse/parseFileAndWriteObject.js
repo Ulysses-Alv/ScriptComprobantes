@@ -1,8 +1,8 @@
-import { findIndex } from "./findIndex.js";
-import { renamedFilesPath } from "./index.js";
-import { lineFinder } from "./lineFinder.js";
+import { findIndex } from "../find_Scripts/findIndex.js";
+import { renamedFilesPath } from "../index.js";
+import { lineFinder } from "../find_Scripts/lineFinder.js";
 import { parsePDFFile } from './parseFile.js';
-import { objectsArrayOfPeriodos } from "./sortObjects.js";
+import { objectsArrayOfPeriodos } from "../Scripts_checkAndFuctions/sortObjects.js";
 
 const consolidadoPrototype = {
     periodo: undefined, //"xxxxx",
